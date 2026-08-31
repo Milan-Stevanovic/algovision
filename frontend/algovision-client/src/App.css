@@ -1,0 +1,12 @@
+.page {
+  max-width: 720px;
+  margin: 80px auto;
+  padding: 32px;
+  border: 1px solid #2a2f3a;
+  border-radius: 8px;
+  background: #171a21;
+}
+
+.page h1 {
+  margin-top: 0;
+}

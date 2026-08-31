@@ -1,17 +1,20 @@
+using AlgoVision.API.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+var frontendOrigin = builder.Configuration["FrontendOrigin"];
+
+builder.Services.AddCors(options => options.AddPolicy("Frontend", policy =>
+    policy.WithOrigins(frontendOrigin).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
+app.UseCors("Frontend");
+app.MapGet("/", () => Results.Ok(new { name = "AlgoVision API", status = "ready" }));
+app.MapHub<PathfindingHub>("/pathfindingHub");
 app.Run();
