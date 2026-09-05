@@ -1,4 +1,7 @@
+using AlgoVision.API.Algorithms;
 using AlgoVision.API.Hubs;
+using AlgoVision.API.Interfaces;
+using AlgoVision.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,8 @@ var frontendOrigin = builder.Configuration["FrontendOrigin"];
 builder.Services.AddCors(options => options.AddPolicy("Frontend", policy =>
     policy.WithOrigins(frontendOrigin).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
+builder.Services.AddSingleton<IPathfindingAlgorithm, BFS>();
+builder.Services.AddSingleton<PathfindingAlgorithmFactory>();
 
 builder.Services.AddSignalR();
 
