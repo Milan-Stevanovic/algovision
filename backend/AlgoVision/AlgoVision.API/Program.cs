@@ -2,6 +2,7 @@ using AlgoVision.API.Algorithms;
 using AlgoVision.API.Hubs;
 using AlgoVision.API.Interfaces;
 using AlgoVision.API.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddCors(options => options.AddPolicy("Frontend", policy =>
 builder.Services.AddSingleton<IPathfindingAlgorithm, BFS>();
 builder.Services.AddSingleton<PathfindingAlgorithmFactory>();
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR().AddJsonProtocol(options => options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 var app = builder.Build();
 

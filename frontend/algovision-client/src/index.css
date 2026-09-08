@@ -1,12 +1,17 @@
 * {
-  box-sizing: border-box;
+     box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  font-family: system-ui, sans-serif;
-  color: #f3f4f6;
-  background: #0f1115;
+ body {
+     margin: 0;
+     min-width: 640px;
+     min-height: 100vh;
+     font-family: system-ui, sans-serif;
+     color: #f3f4f6;
+     background: #0f1115;
 }
+
+ button, select, input {
+     font: inherit;
+}
+ 

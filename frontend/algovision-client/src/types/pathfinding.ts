@@ -1,3 +1,6 @@
+export type GridTool = 'start' | 'end' | 'wall' | 'erase';
+export type VisualCellState = 'frontier' | 'visited' | 'path'
+
 export interface GridPoint { x: number; y: number }
 
 export interface PathfindingRequest {
