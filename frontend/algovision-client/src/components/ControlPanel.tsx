@@ -1,11 +1,14 @@
 import type { GridTool } from "../types/pathfinding";
+import type { AlgorithmKey } from "../types/pathfinding";
 
 interface Props {
+    algorithm: AlgorithmKey;
     tool: GridTool;
     size: number;
     delay: number;
     running: boolean;
     connected: boolean;
+    onAlgorithmChange: (algorithm: AlgorithmKey) => void;
     onToolChange: (tool: GridTool) => void;
     onSizeChange: (size: number) => void;
     onDelayChange: (delay: number) => void;
@@ -18,7 +21,14 @@ function ControlPanel(props: Props) {
     return (
         <aside className="controls">
             <h1>AlgoVision</h1>
-            <p>Breadth-First Search</p>
+            
+            <label>Algorithm</label>
+            <select disabled={props.running} value={props.algorithm} onChange={(event) => props.onAlgorithmChange(event.target.value as AlgorithmKey)}>
+                <option value="bfs">Breadth-First Search</option>
+                <option value="dfs">Depth-First Search</option>
+                <option value="dijkstra">Dijkstra's Algorithm</option>
+                <option value="astar">A* Algorithm</option>
+            </select>
 
             <label>
                 Grid size
@@ -29,7 +39,7 @@ function ControlPanel(props: Props) {
                         props.onSizeChange(Number(event.target.value))
                     }
                 >
-                    {[15, 20, 25, 30, 40].map((size) => (
+                    {[15, 20, 25, 30].map((size) => (
                         <option key={size} value={size}>
                             {size} × {size}
                         </option>
@@ -47,7 +57,7 @@ function ControlPanel(props: Props) {
                             onClick={() => props.onToolChange(tool)}
                             type="button"
                         >
-                            {tool}
+                            {tool.toUpperCase()}
                         </button>
                     ),
                 )}
@@ -58,7 +68,7 @@ function ControlPanel(props: Props) {
                 <input
                     disabled={props.running}
                     min="5"
-                    max="200"
+                    max="30"
                     step="5"
                     type="range"
                     value={props.delay}

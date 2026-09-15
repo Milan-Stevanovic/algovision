@@ -14,6 +14,8 @@ builder.Services.AddCors(options => options.AddPolicy("Frontend", policy =>
     policy.WithOrigins(frontendOrigin).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
 builder.Services.AddSingleton<IPathfindingAlgorithm, BFS>();
+builder.Services.AddSingleton<IPathfindingAlgorithm, DFS>();
+builder.Services.AddSingleton<IPathfindingAlgorithm, Dijkstra>();
 builder.Services.AddSingleton<PathfindingAlgorithmFactory>();
 
 builder.Services.AddSignalR().AddJsonProtocol(options => options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter()));

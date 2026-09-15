@@ -49,6 +49,7 @@
      display: grid;
      gap: 1px;
      background: #374151;
+     grid-auto-rows: minmax(0, 1fr);
 }
 
  .grid-cell {

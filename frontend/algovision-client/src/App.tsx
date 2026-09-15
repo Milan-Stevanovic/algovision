@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { createPathfindingConnection } from "./services/signalr";
-import type { GridPoint, GridTool, PathfindingResult, PathfindingStep, VisualCellState } from "./types/pathfinding";
+import type { AlgorithmKey, GridPoint, GridTool, PathfindingResult, PathfindingStep, VisualCellState } from "./types/pathfinding";
 import ControlPanel from "./components/ControlPanel";
 import PathfindingGrid from "./components/PathfindingGrid";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -9,19 +9,18 @@ import { HubConnectionState } from "@microsoft/signalr";
 const keyOf = (point: GridPoint) => `${point.x},${point.y}`;
 const equals = (first: GridPoint | null, second: GridPoint) => first?.x === second.x && first.y === second.y;
 function App() {
-    // grid
+    // grid & contol panel
+    const [algorithm, setAlgorithm] = useState<AlgorithmKey>('bfs')
     const [size, setSize] = useState(20);
     const [start, setStart] = useState<GridPoint | null>({ x: 2, y: 10 });
     const [end, setEnd] = useState<GridPoint | null>({ x: 17, y: 10 });
     const [walls, setWalls] = useState<Set<string>>(new Set());
-    
-    //control panel
-    const [tool, setTool] = useState<GridTool>("wall");
-    const [delay, setDelay] = useState(30);
-    
     const [visualization, setVisualization] = useState<Record<string, VisualCellState>>({});
+    const [tool, setTool] = useState<GridTool>("wall");
+    const [delay, setDelay] = useState(5);
+    
     const [running, setRunning] = useState(false);
-    const [message, setMessage] = useState("Draw walls and run BFS.");
+    const [message, setMessage] = useState("Draw walls and run algorithm.");
     const [connected, setConnected] = useState(false);
     const connectionRef = useRef<ReturnType<typeof createPathfindingConnection> | null>(null);
 
@@ -55,7 +54,7 @@ function App() {
             .start()
             .then(() => setConnected(true))
             .catch((error) => {
-                setMessage("Backend disconnected.")
+                setMessage("Backend disconnected.") // TODO: fix - will fail due to <StrictMode>
                 console.error("SignalR connection failed.", error)
             });
 
@@ -93,13 +92,10 @@ function App() {
 
     function run() {
         const connection = connectionRef.current;
-        if (
-            !start ||
-            !end ||
-            !connection ||
-            connection.state !== HubConnectionState.Connected
-        )
-            return;
+        if (!start || !end || !connection || connection.state !== HubConnectionState.Connected)
+        {
+            return;    
+        }
         const wallPoints = [...walls].map((key) => {
             const [x, y] = key.split(",").map(Number);
             return { x, y };
@@ -113,12 +109,12 @@ function App() {
                 start,
                 end,
                 walls: wallPoints,
-                algorithm: "bfs",
+                algorithm,
                 animationDelayMs: delay,
             })
             .catch(() => {
                 setRunning(false);
-                setMessage("Could not run BFS.");
+                setMessage("Could not run algorithm.");
             });
     }
     
@@ -133,11 +129,13 @@ function App() {
     return (
         <div className="app-shell">
             <ControlPanel
+                algorithm={algorithm}
                 tool={tool}
                 size={size}
                 delay={delay}
                 running={running}
                 connected={connected}
+                onAlgorithmChange={setAlgorithm}
                 onToolChange={setTool}
                 onSizeChange={resize}
                 onDelayChange={setDelay}

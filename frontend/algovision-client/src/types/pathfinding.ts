@@ -1,3 +1,4 @@
+export type AlgorithmKey = 'bfs' | 'dfs' | 'dijkstra' | 'astar';
 export type GridTool = 'start' | 'end' | 'wall' | 'erase';
 export type VisualCellState = 'frontier' | 'visited' | 'path'
 
