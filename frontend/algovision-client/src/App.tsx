@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { createPathfindingConnection } from "./services/signalr";
-import type { AlgorithmKey, GridPoint, GridTool, PathfindingResult, PathfindingStep, VisualCellState } from "./types/pathfinding";
+import type { AlgorithmKey, GridPoint, GridTool, PathfindingResult, PathfindingStep, VisualCellState, PathfindingFailure } from "./types/pathfinding";
 import ControlPanel from "./components/ControlPanel";
 import PathfindingGrid from "./components/PathfindingGrid";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -50,6 +50,23 @@ function App() {
             // console.log(result);
         });
 
+        connection.on('PathfindingFailed', (failure: PathfindingFailure) => {
+            setRunning(false); setMessage(failure.message)
+        });
+
+        connection.onreconnecting(() => 
+            setConnected(false)
+        );
+
+        connection.onreconnected(() => 
+            setConnected(true)
+        );
+
+        connection.onclose(() => { 
+            setConnected(false); 
+            setRunning(false) 
+        });
+
         void connection
             .start()
             .then(() => setConnected(true))
@@ -62,6 +79,7 @@ function App() {
             connection.off("ClientConnected");
             connection.off("StepReceived");
             connection.off("PathfindingCompleted");
+            connection.off("PathfindingFailed");
             connectionRef.current = null;
             void connection.stop();
         };
@@ -77,9 +95,12 @@ function App() {
             setEnd(point);
             removeWall(key);
         }
-        if (tool === "wall" && !equals(start, point) && !equals(end, point))
+        if (tool === "wall" && !equals(start, point) && !equals(end, point)) {
             setWalls((old) => new Set(old).add(key));
-        if (tool === "erase") removeWall(key);
+        }
+        if (tool === "erase") {
+            removeWall(key);
+        }
     }
 
     function removeWall(key: string) {
@@ -102,6 +123,7 @@ function App() {
         });
         setVisualization({});
         setRunning(true);
+        setMessage(`Running algorithm: ${algorithm.toLocaleUpperCase()}`);
         void connection
             .invoke("StartPathfinding", {
                 gridWidth: size,
@@ -116,6 +138,13 @@ function App() {
                 setRunning(false);
                 setMessage("Could not run algorithm.");
             });
+    }
+
+    function stop() {
+        const connection = connectionRef.current;
+        if (connection?.state === HubConnectionState.Connected) {
+            void connection.invoke('StopPathfinding');
+        }
     }
     
     function resize(nextSize: number) {
@@ -140,6 +169,7 @@ function App() {
                 onSizeChange={resize}
                 onDelayChange={setDelay}
                 onRun={run}
+                onStop={stop}
                 onClearTrace={() => setVisualization({})}
                 onClearGrid={() => {
                     setStart(null);

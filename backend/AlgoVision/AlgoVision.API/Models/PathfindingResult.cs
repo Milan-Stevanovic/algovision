@@ -6,15 +6,14 @@
         public int PathLength { get; }
         public int VisitedNodes { get; }
         public IReadOnlyList<GridPoint> Path { get; }
-        public TimeSpan ElapsedTime { get; }
+        public TimeSpan ElapsedTime { get; set; } = TimeSpan.Zero;
 
-        public PathfindingResult(bool found, int pathLength, int visitedNodes, IReadOnlyList<GridPoint> path, TimeSpan elapsedTime)
+        public PathfindingResult(bool found, int pathLength, int visitedNodes, IReadOnlyList<GridPoint> path)
         {
             Found = found;
             PathLength = pathLength;
             VisitedNodes = visitedNodes;
             Path = path;
-            ElapsedTime = elapsedTime;
         }
 
         public static PathfindingResult NotFound(int visitedNodes)
@@ -23,8 +22,8 @@
                 found: false,
                 pathLength: 0,
                 visitedNodes: visitedNodes,
-                path: Array.Empty<GridPoint>(),
-                elapsedTime: TimeSpan.Zero);
+                path: Array.Empty<GridPoint>()
+            );
         }
     }
 }

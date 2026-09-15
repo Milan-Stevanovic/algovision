@@ -26,5 +26,10 @@ namespace AlgoVision.API.Services
 
             throw new ArgumentException($"Unknown algorithm '{key}'.", nameof(key));
         }
+
+        public bool Exists(string key)
+        {
+            return _algorithms.ContainsKey(key);
+        }
     }
 }

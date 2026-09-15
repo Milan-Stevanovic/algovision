@@ -3,16 +3,23 @@
      font-family: 'Consolas';
 }
 
- body {
+body {
      margin: 0;
      min-width: 640px;
      min-height: 100vh;
-     font-family: system-ui, sans-serif;
      color: #f3f4f6;
-     background: #0f1115;
+     background:
+          radial-gradient(circle at 15% 20%, #7c3aed33 0%, transparent 35%),
+          radial-gradient(circle at 85% 80%, #2563eb2b 0%, transparent 40%),
+          linear-gradient(135deg, #09090f 0%, #111827 50%, #080b12 100%);
+     background-attachment: fixed;
+     color: #f8fafc;
 }
 
- button, select, input {
+button, select, input {
      font: inherit;
 }
  
+.controls button {
+     border-radius: 5px;
+}

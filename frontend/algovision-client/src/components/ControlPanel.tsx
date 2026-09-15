@@ -13,6 +13,7 @@ interface Props {
     onSizeChange: (size: number) => void;
     onDelayChange: (delay: number) => void;
     onRun: () => void;
+    onStop: () => void;
     onClearTrace: () => void;
     onClearGrid: () => void;
 }
@@ -67,8 +68,8 @@ function ControlPanel(props: Props) {
                 Delay: {props.delay} ms
                 <input
                     disabled={props.running}
-                    min="5"
-                    max="30"
+                    min="0"
+                    max="500"
                     step="5"
                     type="range"
                     value={props.delay}
@@ -78,25 +79,16 @@ function ControlPanel(props: Props) {
                 />
             </label>
 
-            <button
-                disabled={props.running || !props.connected}
-                onClick={props.onRun}
-                type="button"
-            >
+            <button disabled={props.running || !props.connected} onClick={props.onRun} type="button">
                 Find Path
             </button>
-            <button
-                disabled={props.running}
-                onClick={props.onClearTrace}
-                type="button"
-            >
+            <button disabled={!props.running} onClick={props.onStop} type="button">
+                Stop
+            </button>
+            <button disabled={props.running} onClick={props.onClearTrace} type="button">
                 Clear Visualization
             </button>
-            <button
-                disabled={props.running}
-                onClick={props.onClearGrid}
-                type="button"
-            >
+            <button disabled={props.running} onClick={props.onClearGrid} type="button">
                 Clear Grid
             </button>
         </aside>
