@@ -26,3 +26,8 @@ export interface PathfindingResult {
   visitedNodes: number
   elapsedTime: string
 }
+
+export interface PathfindingFailure { 
+  message: string,
+  canceled: boolean 
+}

@@ -4,63 +4,65 @@
      grid-template-columns: 240px 1fr;
 }
 
- .controls {
+.controls {
      padding: 20px;
      border-right: 1px solid #374151;
      display: flex;
      flex-direction: column;
-     gap: 14px;
+     gap: 20px;
 }
 
- .controls label {
+.controls label {
      display: flex;
      flex-direction: column;
      gap: 6px;
 }
 
- .tool-list {
+.tool-list {
      display: grid;
      grid-template-columns: 1fr 1fr;
-     gap: 6px;
+     gap: 5px;
 }
 
- .controls button, .controls select {
+.controls button, .controls select {
      padding: 8px;
      color: #f3f4f6;
      background: #1f2937;
      border: 1px solid #4b5563;
 }
 
- .controls button.active {
-     border-color: #a855f7;
-     background: #3b1d55;
+.controls button.active {
+     border-color: #55f763;
+     background: #1d553e;
 }
 
- .workspace {
+.workspace {
      padding: 20px;
      display: flex;
      flex-direction: column;
      align-items: center;
 }
 
- .pathfinding-grid {
+.pathfinding-grid {
      width: min(75vh, 100%);
      aspect-ratio: 1;
      display: grid;
      gap: 1px;
      background: #374151;
      grid-auto-rows: minmax(0, 1fr);
+     padding: 5px;
+     border-radius: 3px;
 }
 
- .grid-cell {
+.grid-cell {
      min-width: 0;
      padding: 0;
      border: 0;
-     background: #111827;
+     background: #151d30;
      color: white;
 }
 
- .cell-wall {
+.cell-wall {
      background: #030712;
 }
 

@@ -14,7 +14,6 @@ namespace AlgoVision.API.Algorithms
 
         public async Task<PathfindingResult> ExecuteAsync(PathfindingRequest request, Func<PathfindingStep, Task> onStep, CancellationToken cancellationToken)
         {
-            Stopwatch sw = Stopwatch.StartNew();
             HashSet<GridPoint> walls = request.Walls.ToHashSet();
             Queue<GridPoint> queue = new Queue<GridPoint>();
             HashSet<GridPoint> discovered = new HashSet<GridPoint> { request.Start };
@@ -39,13 +38,11 @@ namespace AlgoVision.API.Algorithms
                 {
                     var path = AlgorithmUtilities.ReconstructPath(current, predecessors);
                     await AlgorithmUtilities.EmitPathAsync(path, onStep, cancellationToken);
-                    sw.Stop();
                     return new PathfindingResult(
                         found: true,
                         pathLength: path.Count - 1,
                         visitedNodes: visitedNodes,
-                        path: path,
-                        elapsedTime: sw.Elapsed);
+                        path: path);
                 }
 
                 foreach (var neighbor in AlgorithmUtilities.GetNeighbors(current, request, walls))

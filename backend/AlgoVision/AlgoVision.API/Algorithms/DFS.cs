@@ -14,7 +14,6 @@ public sealed class DFS : IPathfindingAlgorithm
 
     public async Task<PathfindingResult> ExecuteAsync(PathfindingRequest request, Func<PathfindingStep, Task> onStep, CancellationToken cancellationToken)
     {
-        Stopwatch sw = Stopwatch.StartNew();
         HashSet<GridPoint> walls = request.Walls.ToHashSet();
         Stack<GridPoint> stack = new Stack<GridPoint>();
         HashSet<GridPoint> discovered = new HashSet<GridPoint> { request.Start };
@@ -38,13 +37,11 @@ public sealed class DFS : IPathfindingAlgorithm
             {
                 var path = AlgorithmUtilities.ReconstructPath(current, predecessors);
                 await AlgorithmUtilities.EmitPathAsync(path, onStep, cancellationToken);
-                sw.Stop();
                 return new PathfindingResult(
                     found: true,
                     pathLength: path.Count - 1,
                     visitedNodes: visitedNodes,
-                    path: path,
-                    elapsedTime: sw.Elapsed);
+                    path: path);
             }
 
             var neighbors = AlgorithmUtilities.GetNeighbors(current, request, walls);

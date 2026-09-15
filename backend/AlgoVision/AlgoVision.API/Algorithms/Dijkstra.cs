@@ -14,7 +14,6 @@ public sealed class Dijkstra : IPathfindingAlgorithm
 
     public async Task<PathfindingResult> ExecuteAsync(PathfindingRequest request, Func<PathfindingStep, Task> onStep, CancellationToken cancellationToken)
     {
-        Stopwatch sw = Stopwatch.StartNew();
         HashSet<GridPoint> walls = request.Walls.ToHashSet();
         PriorityQueue<GridPoint, int> queue = new PriorityQueue<GridPoint, int>();
         Dictionary<GridPoint, int> distances = new Dictionary<GridPoint, int> { [request.Start] = 0 };
@@ -42,13 +41,11 @@ public sealed class Dijkstra : IPathfindingAlgorithm
             {
                 var path = AlgorithmUtilities.ReconstructPath(current, predecessors);
                 await AlgorithmUtilities.EmitPathAsync(path, onStep, cancellationToken);
-                sw.Stop();
                 return new PathfindingResult(
                     found: true,
                     pathLength: path.Count - 1,
                     visitedNodes: processed.Count,
-                    path: path,
-                    elapsedTime: sw.Elapsed);
+                    path: path);
             }
 
             foreach (var neighbor in AlgorithmUtilities.GetNeighbors(current, request, walls))
