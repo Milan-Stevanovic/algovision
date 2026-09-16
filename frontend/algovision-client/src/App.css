@@ -75,12 +75,20 @@
      background: #f43f5e;
 }
 
- .cell-frontier {
+.cell-frontier {
      background: #9333ea;
+}
+
+.cell-frontier-end { 
+     background: #c026d3; 
 }
 
 .cell-visited {
      background: #0891b2;
+}
+
+.cell-visited-end { 
+     background: #9c24ac; 
 }
 
 .cell-path {

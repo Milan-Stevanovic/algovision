@@ -29,6 +29,7 @@ function ControlPanel(props: Props) {
                 <option value="dfs">Depth-First Search</option>
                 <option value="dijkstra">Dijkstra's Algorithm</option>
                 <option value="astar">A* Algorithm</option>
+                <option value="bidirectional-search">Bidirectional Search</option>
             </select>
 
             <label>

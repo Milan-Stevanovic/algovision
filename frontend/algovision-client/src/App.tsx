@@ -33,10 +33,9 @@ function App() {
         });
 
         connection.on("StepReceived", (step: PathfindingStep) => {
-            setVisualization((current) => ({
-                ...current,
-                [keyOf(step)]: step.type.toLowerCase() as VisualCellState,
-            }));
+            let state = step.type.toLowerCase() as VisualCellState
+            if (step.searchSide === 'end' && step.type !== 'Path') state = `${state}-end` as VisualCellState
+            setVisualization((current) => ({ ...current, [keyOf(step)]: state }))
             // console.log(step);
         });
 

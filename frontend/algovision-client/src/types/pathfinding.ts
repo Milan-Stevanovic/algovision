@@ -1,6 +1,6 @@
-export type AlgorithmKey = 'bfs' | 'dfs' | 'dijkstra' | 'astar';
+export type AlgorithmKey = 'bfs' | 'dfs' | 'dijkstra' | 'astar' | 'bidirectional-search';
 export type GridTool = 'start' | 'end' | 'wall' | 'erase';
-export type VisualCellState = 'frontier' | 'visited' | 'path'
+export type VisualCellState = 'frontier' | 'visited' | 'path' | 'frontier-end' | 'visited-end';
 
 export interface GridPoint { x: number; y: number }
 
@@ -18,6 +18,7 @@ export interface PathfindingStep {
   x: number
   y: number
   type: 'Frontier' | 'Visited' | 'Path'
+  searchSide?: 'start' | 'end';
 }
 
 export interface PathfindingResult {
