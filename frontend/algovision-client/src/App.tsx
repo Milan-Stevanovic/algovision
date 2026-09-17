@@ -43,7 +43,7 @@ function App() {
             setRunning(false);
             setMessage(
                 result.found
-                    ? `Path length: ${result.pathLength}. Visualization time: ${result.elapsedTime}.`
+                    ? `Path length: ${result.pathLength}. Visited Nodes: ${result.visitedNodes}. Visualisation time: ${result.elapsedTime}.`
                     : "No path found.",
             );
             // console.log(result);
