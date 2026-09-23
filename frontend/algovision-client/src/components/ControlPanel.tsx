@@ -16,6 +16,7 @@ interface Props {
     onStop: () => void;
     onClearTrace: () => void;
     onClearGrid: () => void;
+    onGenerateRandomWalls: () => void;
 }
 
 function ControlPanel(props: Props) {
@@ -92,6 +93,13 @@ function ControlPanel(props: Props) {
             <button disabled={props.running} onClick={props.onClearGrid} type="button">
                 Clear Grid
             </button>
+
+            <label><span className="section-label">Preset</span>
+
+            <button disabled={props.running} onClick={props.onGenerateRandomWalls} type="button">
+                Generate random walls
+            </button>
+            </label>
         </aside>
     );
 }

@@ -154,6 +154,26 @@ function App() {
         setVisualization({});
     }
 
+    function generateRandomWalls() {
+        const random = new Set<string>()
+
+        function add(x: number, y: number) {
+            const point = { x, y }
+            if (!equals(start, point) && !equals(end, point) && x >= 0 && y >= 0 && x < size && y < size) {
+            random.add(keyOf(point))
+            }
+        }
+        for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    if (Math.random() < 0.22) 
+                        add(x, y)
+                }
+            }
+        setWalls(random)
+        setVisualization({})
+        setMessage(`Random walls generated.`)
+    }
+
     return (
         <div className="app-shell">
             <ControlPanel
@@ -176,6 +196,7 @@ function App() {
                     setWalls(new Set());
                     setVisualization({});
                 }}
+                onGenerateRandomWalls={generateRandomWalls}
             />
             <main className="workspace">
                 <p>{message}</p>
