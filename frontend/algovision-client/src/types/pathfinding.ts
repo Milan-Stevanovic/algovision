@@ -1,0 +1,34 @@
+export type AlgorithmKey = 'bfs' | 'dfs' | 'dijkstra' | 'astar' | 'bidirectional-search';
+export type GridTool = 'start' | 'end' | 'wall' | 'erase';
+export type VisualCellState = 'frontier' | 'visited' | 'path' | 'frontier-end' | 'visited-end';
+
+export interface GridPoint { x: number; y: number }
+
+export interface PathfindingRequest {
+  gridWidth: number
+  gridHeight: number
+  start: GridPoint
+  end: GridPoint
+  walls: GridPoint[]
+  algorithm: 'bfs'
+  animationDelayMs: string
+}
+
+export interface PathfindingStep {
+  x: number
+  y: number
+  type: 'Frontier' | 'Visited' | 'Path'
+  searchSide?: 'start' | 'end';
+}
+
+export interface PathfindingResult {
+  found: boolean
+  pathLength: number
+  visitedNodes: number
+  elapsedTime: string
+}
+
+export interface PathfindingFailure { 
+  message: string,
+  canceled: boolean 
+}

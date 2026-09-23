@@ -1,6 +1,0 @@
-@AlgoVision.API_HostAddress = http://localhost:5219
-
-GET {{AlgoVision.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
